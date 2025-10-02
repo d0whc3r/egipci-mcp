@@ -1,0 +1,69 @@
+{
+  "name": "egipci-mcp-server",
+  "version": "1.0.0",
+  "description": "Servidor MCP para consultar información arqueológica desde el servicio EGIPCI de la Generalitat de Catalunya",
+  "main": "dist/index.js",
+  "bin": {
+    "egipci-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist/index.js"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "tsup --env.prod",
+    "build:clean": "rm -rf dist && npm run build",
+    "start": "node dist/index.js",
+    "dev": "tsx --watch src/index.ts",
+    "lint": "oxlint src/",
+    "lint:fix": "oxlint src/ --fix",
+    "format": "prettier --write \"src/**/*.{ts,js,json,md}\" \"*.{json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json,md}\" \"*.{json,md}\"",
+    "type-check": "tsc --noEmit",
+    "check-all": "npm run type-check && npm run lint && npm run format:check && npm run build",
+    "pre-push": "npm run type-check && npm run lint && npm run build",
+    "fix-all": "npm run lint:fix && npm run format",
+    "clean": "rm -rf dist node_modules/.cache",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "mcp",
+    "egipci",
+    "gencat",
+    "arqueologia",
+    "archaeological",
+    "server"
+  ],
+  "author": "d0whc3r",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.2",
+    "got": "^14.4.9",
+    "zod": "^3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.3",
+    "oxlint": "^1.19.0",
+    "prettier": "^3.6.2",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,js}": [
+      "oxlint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ],
+    "src/**/*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}

@@ -39,7 +39,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Clear GitHub Actions Cache
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const cacheType = '${{ github.event.inputs.cache_type }}';
@@ -109,7 +109,7 @@ jobs:
 
       - name: Create cache invalidation comment
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const changes = [];

@@ -124,11 +124,10 @@ async function main(): Promise<void> {
   }
 }
 
-// Start the server if this file is run directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  // oxlint-disable-next-line prefer-await-to-then,prefer-await-to-callbacks
-  main().catch((error) => {
-    console.error('[Server] Fatal error:', error)
-    process.exit(1)
-  })
-}
+// Start the server - always run when this module is executed
+// This is designed to be the main entry point for the MCP server
+// oxlint-disable-next-line prefer-await-to-then,prefer-await-to-callbacks
+main().catch((error) => {
+  console.error('[Server] Fatal error:', error)
+  process.exit(1)
+})

@@ -43,6 +43,7 @@
     "cache:clear": "pnpm store prune && rm -rf node_modules/.cache && rm -rf *.tsbuildinfo",
     "cache:verify": "pnpm store status",
     "cache:rebuild": "pnpm run cache:clear && pnpm install --frozen-lockfile",
+    "format:release": "prettier --write \"CHANGELOG.md\" \"package.json\" \"*.md\" \"*.json\" \"*.yml\" \"*.yaml\"",
     "prepare": "husky"
   },
   "keywords": [
@@ -62,6 +63,7 @@
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^22",
     "@vitest/coverage-v8": "^3.2.4",

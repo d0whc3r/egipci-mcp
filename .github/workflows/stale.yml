@@ -1,0 +1,83 @@
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Run daily at 2 AM UTC
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Issues configuration
+          stale-issue-message: |
+            This issue has been automatically marked as stale because it has not had recent activity.
+
+            **What happens next?**
+            - If no activity occurs within 7 days, this issue will be automatically closed
+            - To keep this issue open, simply add a comment or remove the `stale` label
+            - If you believe this was marked as stale in error, please comment and we'll review
+
+            Thank you for your contribution! 🙏
+
+          close-issue-message: |
+            This issue has been automatically closed due to inactivity.
+
+            **Don't worry!** You can always:
+            - Reopen this issue if it's still relevant
+            - Create a new issue with updated information
+            - Reference this issue in future discussions
+
+            Thank you for your understanding! 🚀
+
+          # Pull requests configuration
+          stale-pr-message: |
+            This pull request has been automatically marked as stale because it has not had recent activity.
+
+            **What happens next?**
+            - If no activity occurs within 7 days, this PR will be automatically closed
+            - To keep this PR open, simply push new commits or add a comment
+            - If you need help finishing this PR, please ask for assistance
+
+            Thank you for your contribution! 🙏
+
+          close-pr-message: |
+            This pull request has been automatically closed due to inactivity.
+
+            **Don't worry!** You can always:
+            - Reopen this PR if you want to continue working on it
+            - Create a new PR with your changes
+            - Ask for help if you're stuck
+
+            Thank you for your contribution! 🚀
+
+          # Timing configuration
+          days-before-stale: 30 # Mark as stale after 30 days
+          days-before-close: 7 # Close after 7 days of being stale
+          days-before-pr-close: 7 # Close PRs after 7 days of being stale
+
+          # Labels
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          exempt-issue-labels: 'pinned,security,enhancement,good first issue'
+          exempt-pr-labels: 'pinned,security,work-in-progress'
+
+          # Additional configuration
+          operations-per-run: 100 # Limit operations per run
+          remove-stale-when-updated: true
+          ascending: true # Process oldest first
+
+          # Only process issues/PRs with these labels (empty = all)
+          only-labels: ''
+
+          # Skip issues/PRs with these labels
+          exempt-all-assignees: true # Don't mark assigned items as stale
+          exempt-draft-pr: true # Don't mark draft PRs as stale

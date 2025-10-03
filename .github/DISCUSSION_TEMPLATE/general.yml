@@ -1,0 +1,30 @@
+labels: ['question']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for starting a discussion! This is a great place to:
+        - Ask questions about usage
+        - Share ideas and suggestions
+        - Get help with configuration
+        - Discuss best practices
+        - Show off your implementations
+
+  - type: textarea
+    attributes:
+      label: 'What would you like to discuss?'
+      description: 'Share your thoughts, questions, or ideas'
+      placeholder: "Tell us what's on your mind..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: 'Discussion Guidelines'
+      options:
+        - label: 'I have searched existing discussions'
+          required: true
+        - label: 'I have read the documentation'
+          required: true
+        - label: 'This is not a bug report (use Issues for bugs)'
+          required: true

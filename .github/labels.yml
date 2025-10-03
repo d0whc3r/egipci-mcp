@@ -1,0 +1,197 @@
+# GitHub Labels Configuration
+# This file defines all labels used in the repository
+
+# Type labels
+- name: bug
+  color: 'd73a4a'
+  description: "Something isn't working"
+
+- name: enhancement
+  color: 'a2eeef'
+  description: 'New feature or request'
+
+- name: question
+  color: 'd876e3'
+  description: 'Further information is requested'
+
+- name: documentation
+  color: '0075ca'
+  description: 'Improvements or additions to documentation'
+
+- name: duplicate
+  color: 'cfd3d7'
+  description: 'This issue or pull request already exists'
+
+- name: invalid
+  color: 'e4e669'
+  description: "This doesn't seem right"
+
+- name: wontfix
+  color: 'ffffff'
+  description: 'This will not be worked on'
+
+# Priority labels
+- name: 'priority: critical'
+  color: 'b60205'
+  description: 'Critical priority - needs immediate attention'
+
+- name: 'priority: high'
+  color: 'd93f0b'
+  description: 'High priority'
+
+- name: 'priority: medium'
+  color: 'fbca04'
+  description: 'Medium priority'
+
+- name: 'priority: low'
+  color: '0e8a16'
+  description: 'Low priority'
+
+# Status labels
+- name: 'status: needs-triage'
+  color: 'ededed'
+  description: 'Needs initial review and categorization'
+  alias: 'needs-triage'
+
+- name: 'status: in-progress'
+  color: '0052cc'
+  description: 'Currently being worked on'
+
+- name: 'status: blocked'
+  color: 'b60205'
+  description: 'Blocked by external dependency or issue'
+
+- name: 'status: ready-for-review'
+  color: '0e8a16'
+  description: 'Ready for code review'
+
+- name: 'status: changes-requested'
+  color: 'd93f0b'
+  description: 'Changes have been requested'
+
+- name: 'status: waiting-for-response'
+  color: 'fbca04'
+  description: 'Waiting for response from author'
+
+# Component labels
+- name: 'component: mcp-server'
+  color: '1d76db'
+  description: 'Related to MCP server functionality'
+
+- name: 'component: egipci-client'
+  color: '1d76db'
+  description: 'Related to EGIPCI API client'
+
+- name: 'component: configuration'
+  color: '1d76db'
+  description: 'Related to configuration and setup'
+
+- name: 'component: documentation'
+  color: '1d76db'
+  description: 'Related to documentation'
+
+- name: 'component: ci-cd'
+  color: '1d76db'
+  description: 'Related to CI/CD pipeline'
+
+- name: 'component: security'
+  color: '1d76db'
+  description: 'Related to security'
+
+- name: 'component: testing'
+  color: '1d76db'
+  description: 'Related to testing'
+
+# Effort labels
+- name: 'effort: small'
+  color: 'c2e0c6'
+  description: 'Small effort - can be completed quickly'
+
+- name: 'effort: medium'
+  color: 'fef2c0'
+  description: 'Medium effort - requires some time'
+
+- name: 'effort: large'
+  color: 'f9d0c4'
+  description: 'Large effort - significant time investment'
+
+# Special labels
+- name: 'good first issue'
+  color: '7057ff'
+  description: 'Good for newcomers'
+
+- name: 'help wanted'
+  color: '008672'
+  description: 'Extra attention is needed'
+
+- name: 'breaking change'
+  color: 'b60205'
+  description: 'Introduces breaking changes'
+
+- name: 'security'
+  color: 'd73a4a'
+  description: 'Security related issue'
+
+- name: 'performance'
+  color: '0e8a16'
+  description: 'Performance related'
+
+- name: 'refactor'
+  color: 'fbca04'
+  description: 'Code refactoring'
+
+- name: 'dependencies'
+  color: '0366d6'
+  description: 'Pull requests that update a dependency file'
+
+- name: 'stale'
+  color: 'ededed'
+  description: 'Stale issue or pull request'
+
+- name: 'pinned'
+  color: 'e99695'
+  description: 'Pinned issue - will not be marked as stale'
+
+- name: 'work-in-progress'
+  color: 'fbca04'
+  description: 'Work in progress - not ready for review'
+  alias: 'wip'
+
+# Release labels
+- name: 'release: major'
+  color: 'b60205'
+  description: 'Major version release'
+
+- name: 'release: minor'
+  color: 'fbca04'
+  description: 'Minor version release'
+
+- name: 'release: patch'
+  color: '0e8a16'
+  description: 'Patch version release'
+
+# Platform labels
+- name: 'platform: windows'
+  color: '0052cc'
+  description: 'Windows specific'
+
+- name: 'platform: macos'
+  color: '0052cc'
+  description: 'macOS specific'
+
+- name: 'platform: linux'
+  color: '0052cc'
+  description: 'Linux specific'
+
+# MCP Client labels
+- name: 'client: claude'
+  color: 'f9d0c4'
+  description: 'Related to Claude Desktop'
+
+- name: 'client: cursor'
+  color: 'f9d0c4'
+  description: 'Related to Cursor IDE'
+
+- name: 'client: other'
+  color: 'f9d0c4'
+  description: 'Related to other MCP clients'

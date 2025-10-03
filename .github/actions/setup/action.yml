@@ -1,5 +1,5 @@
 name: 'Setup Node.js and pnpm'
-description: 'Setup Node.js and pnpm'
+description: 'Setup Node.js and pnpm with caching'
 
 runs:
   using: 'composite'
@@ -13,6 +13,7 @@ runs:
       uses: actions/setup-node@v5
       with:
         node-version: ${{ env.NODE_VERSION || '22' }}
+        cache: 'pnpm'
 
     - name: Install dependencies
       shell: bash

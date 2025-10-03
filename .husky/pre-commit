@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-pnpx lint-staged
+pnpx lint-staged --allow-empty
 pnpm run type-check
 pnpm run test

@@ -6,6 +6,7 @@ yarn-error.log*
 
 # Build outputs
 dist/
+dist-test/
 build/
 *.tsbuildinfo
 
@@ -39,6 +40,9 @@ logs
 # Coverage directory used by tools like istanbul
 coverage/
 *.lcov
+
+# Test results
+test-results/
 
 # Temporary folders
 tmp/

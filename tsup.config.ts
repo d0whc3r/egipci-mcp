@@ -13,5 +13,6 @@ export default defineConfig((options) => {
     minify: isProd,
     bundle: true,
     external: ['@modelcontextprotocol/sdk', 'got', 'zod'],
+    tsconfig: './tsconfig.app.json',
   }
 })

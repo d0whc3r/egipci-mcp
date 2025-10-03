@@ -151,12 +151,18 @@ All errors are returned with descriptive messages.
 
 ```bash
 npm run dev          # Run with hot reload using tsx
+npm run test         # Run tests with Vitest
+npm run test:watch   # Run tests in watch mode
+npm run test:coverage # Run tests with coverage report
+npm run test:ci      # Run tests with CI reporters (JUnit, GitHub Actions)
 npm run lint         # Run oxlint
 npm run lint:fix     # Run oxlint with auto-fix
 npm run format       # Format code with Prettier
 npm run format:check # Check code formatting
-npm run type-check   # Run TypeScript type checking
-npm run check-all    # Run all checks (type-check + lint + format:check)
+npm run type-check   # Run TypeScript type checking (all projects)
+npm run type-check:app # Type check application code only
+npm run type-check:test # Type check test code only
+npm run check-all    # Run all checks (type-check + lint + format:check + test)
 npm run fix-all      # Fix all auto-fixable issues (lint:fix + format)
 ```
 
@@ -171,6 +177,13 @@ npm run clean       # Clean build artifacts and cache
 ## Code Quality
 
 This project follows strict code quality standards with:
+
+### Testing (Vitest)
+
+- **Unit tests** for all modules with high coverage requirements
+- **V8 coverage** provider for accurate coverage reporting
+- **Mocking** for external dependencies and HTTP requests
+- **Coverage thresholds** set to 80% for branches, functions, lines, and statements
 
 ### Linting (oxlint)
 
@@ -188,9 +201,29 @@ This project follows strict code quality standards with:
 
 ### Git Hooks (Husky + lint-staged)
 
-- Pre-commit hooks run linting and formatting
+- Pre-commit hooks run linting, formatting, and tests
 - Type checking before commits
 - Automatic code fixes when possible
+
+### CI/CD Pipeline
+
+- **Optimized GitHub Actions** with intelligent parallelization
+- **Reusable actions** for common setup tasks
+- **Multi-job workflow** with quality gates
+- **Semantic Release** for automated versioning and publishing
+- **Automated NPM publishing** with proper scoped package name
+- **Advanced test reporting** (JUnit, GitHub Actions, Coverage)
+- **Security scanning** with CodeQL and dependency review
+- **Performance monitoring** with bundle size analysis
+- **Artifact management** with automatic cleanup
+
+### TypeScript Configuration
+
+- **Project References** with separate configurations for app and tests
+- **tsconfig.base.json** - Shared base configuration
+- **tsconfig.app.json** - Application-specific configuration
+- **tsconfig.test.json** - Test-specific configuration with Vitest types
+- **Incremental compilation** for faster builds
 
 ### Additional Tools
 

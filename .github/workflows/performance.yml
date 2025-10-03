@@ -1,0 +1,113 @@
+name: Performance & Bundle Analysis
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bundle-analysis:
+    name: Bundle Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      - name: Build for analysis
+        run: pnpm run build
+
+      - name: Analyze bundle size
+        run: |
+          echo "## Bundle Analysis 📦" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+
+          for file in dist/*; do
+            if [ -f "$file" ]; then
+              size=$(du -h "$file" | cut -f1)
+              filename=$(basename "$file")
+              echo "| $filename | $size |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total bundle size:** $(du -sh dist/ | cut -f1)" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check bundle size limits
+        run: |
+          # Check if main bundle is under 10KB (reasonable for a CLI tool)
+          size_bytes=$(stat -f%z dist/index.js 2>/dev/null || stat -c%s dist/index.js)
+          size_kb=$((size_bytes / 1024))
+
+          echo "Bundle size: ${size_kb}KB"
+
+          if [ $size_kb -gt 10 ]; then
+            echo "❌ Bundle size (${size_kb}KB) exceeds limit (10KB)"
+            exit 1
+          else
+            echo "✅ Bundle size (${size_kb}KB) is within limits"
+          fi
+
+  startup-performance:
+    name: Startup Performance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      - name: Build application
+        run: pnpm run build
+
+      - name: Test startup time
+        run: |
+          echo "## Startup Performance ⚡" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Test startup time (should be fast for CLI tools)
+          for i in {1..5}; do
+            start_time=$(date +%s%N)
+            timeout 5s node dist/index.js --help > /dev/null 2>&1 || true
+            end_time=$(date +%s%N)
+            duration=$(( (end_time - start_time) / 1000000 ))
+            echo "Run $i: ${duration}ms" >> $GITHUB_STEP_SUMMARY
+          done
+
+  dependency-size:
+    name: Dependency Size Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: ./.github/actions/setup
+
+      - name: Analyze dependencies
+        run: |
+          echo "## Dependency Analysis 📊" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Production dependencies
+          echo "### Production Dependencies" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          pnpm list --prod --depth=0 >> $GITHUB_STEP_SUMMARY || true
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Development Dependencies Count" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          dev_count=$(pnpm list --dev --depth=0 | grep -c "^├\|^└" || echo "0")
+          prod_count=$(pnpm list --prod --depth=0 | grep -c "^├\|^└" || echo "0")
+          echo "- Production: $prod_count" >> $GITHUB_STEP_SUMMARY
+          echo "- Development: $dev_count" >> $GITHUB_STEP_SUMMARY

@@ -1,5 +1,16 @@
+# =============================================================================
+# PNPM Workspace Configuration
+# =============================================================================
+
+# Define workspace packages
 packages:
   - '.'
 
-# Minimum seconds (3 days)
 minimumReleaseAge: 4320
+# minimumReleaseAgeExclude:
+# - "@modelcontextprotocol/sdk"
+# - "typescript"
+
+networkConcurrency: 3
+childConcurrency: 3
+lockfile: true

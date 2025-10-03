@@ -60,8 +60,9 @@
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^24.6.2",
+    "@types/node": "^22",
     "@vitest/coverage-v8": "^3.2.4",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.3",
     "oxlint": "^1.19.0",

@@ -1,0 +1,147 @@
+name: Cache Management
+
+on:
+  workflow_dispatch:
+    inputs:
+      cache_type:
+        description: 'Type of cache to clear'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - pnpm-store
+          - node-modules
+          - typescript
+      reason:
+        description: 'Reason for cache clearing'
+        required: false
+        default: 'Manual cache cleanup'
+
+  # Auto-trigger when package management files change
+  push:
+    paths:
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.pnpmrc'
+      - '.npmrc'
+      - 'pnpm-workspace.yaml'
+    branches: [master, develop]
+
+concurrency:
+  group: cache-management-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clear-cache:
+    name: Clear Cache
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Clear GitHub Actions Cache
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const cacheType = '${{ github.event.inputs.cache_type }}';
+            const reason = '${{ github.event.inputs.reason }}';
+
+            console.log(`Clearing cache type: ${cacheType}`);
+            console.log(`Reason: ${reason}`);
+
+            const caches = await github.rest.actions.getActionsCacheList({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            });
+
+            const cachePatterns = {
+              'all': [''],
+              'pnpm-store': ['pnpm-store'],
+              'node-modules': ['node-modules'],
+              'typescript': ['tsbuildinfo']
+            };
+
+            const patterns = cachePatterns[cacheType] || [''];
+
+            for (const cache of caches.data.actions_caches) {
+              const shouldDelete = patterns.some(pattern =>
+                pattern === '' || cache.key.includes(pattern)
+              );
+
+              if (shouldDelete) {
+                console.log(`Deleting cache: ${cache.key}`);
+                await github.rest.actions.deleteActionsCacheById({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  cache_id: cache.id
+                });
+              }
+            }
+
+            console.log('Cache clearing completed');
+
+  notify-cache-change:
+    name: Notify Cache Change
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for significant changes
+        id: changes
+        run: |
+          echo "Detected changes in package management files"
+          echo "This may require cache invalidation in subsequent runs"
+
+          # Check what changed
+          if git diff --name-only HEAD~1 HEAD | grep -q "package.json"; then
+            echo "package_json_changed=true" >> $GITHUB_OUTPUT
+          fi
+
+          if git diff --name-only HEAD~1 HEAD | grep -q "pnpm-lock.yaml"; then
+            echo "lockfile_changed=true" >> $GITHUB_OUTPUT
+          fi
+
+          if git diff --name-only HEAD~1 HEAD | grep -q -E "\.(pnpmrc|npmrc)$"; then
+            echo "config_changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create cache invalidation comment
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const changes = [];
+            if ('${{ steps.changes.outputs.package_json_changed }}' === 'true') {
+              changes.push('📦 package.json');
+            }
+            if ('${{ steps.changes.outputs.lockfile_changed }}' === 'true') {
+              changes.push('🔒 pnpm-lock.yaml');
+            }
+            if ('${{ steps.changes.outputs.config_changed }}' === 'true') {
+              changes.push('⚙️ pnpm/npm config');
+            }
+
+            if (changes.length > 0) {
+              const body = `## 🔄 Cache Invalidation Notice
+
+              The following package management files were modified:
+              ${changes.map(c => `- ${c}`).join('\n')}
+
+              **Impact**: Existing caches may be invalidated automatically in the next CI runs.
+
+              **Manual Action**: If you experience cache-related issues, you can manually clear caches using the [Cache Management workflow](https://github.com/${{ github.repository }}/actions/workflows/cache-management.yml).
+
+              ---
+              *This is an automated notification from the cache management system.*`;
+
+              // Create an issue for tracking
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `Cache invalidation required - ${new Date().toISOString().split('T')[0]}`,
+                body: body,
+                labels: ['cache', 'maintenance', 'automated']
+              });
+            }

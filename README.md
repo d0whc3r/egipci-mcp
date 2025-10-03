@@ -36,31 +36,15 @@ npm run dev
 
 To use this server with an MCP client, add the following configuration to your `mcp.json` file:
 
-#### Option 1: With cookie in environment variable (Recommended)
-
 ```json
 {
   "mcpServers": {
     "gencat-egipci": {
-      "command": "node",
-      "args": ["/path/to/egipci-mcp-server/dist/index.js"],
+      "command": "npx",
+      "args": ["-y", "@d0whc3r/egipci-mcp@latest"],
       "env": {
         "EGIPCI_COOKIE": "your_intranet_cookie_value_here"
       }
-    }
-  }
-}
-```
-
-#### Option 2: Without environment variable
-
-```json
-{
-  "mcpServers": {
-    "gencat-egipci": {
-      "command": "node",
-      "args": ["/path/to/egipci-mcp-server/dist/index.js"],
-      "env": {}
     }
   }
 }

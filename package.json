@@ -40,6 +40,9 @@
     "deps:update": "pnpm update --latest",
     "deps:check": "pnpm outdated && pnpm audit",
     "workspace:check": "pnpm -r exec -- echo 'Checking workspace package:'",
+    "cache:clear": "pnpm store prune && rm -rf node_modules/.cache && rm -rf *.tsbuildinfo",
+    "cache:verify": "pnpm store status",
+    "cache:rebuild": "pnpm run cache:clear && pnpm install --frozen-lockfile",
     "prepare": "husky"
   },
   "keywords": [

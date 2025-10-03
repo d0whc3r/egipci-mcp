@@ -41,8 +41,9 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ env.STORE_PATH }}
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml', 'package.json', '.pnpmrc', '.npmrc', 'pnpm-workspace.yaml') }}
         restore-keys: |
+          ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml', 'package.json') }}
           ${{ runner.os }}-pnpm-store-
 
     - name: Cache node_modules
@@ -50,17 +51,35 @@ runs:
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('pnpm-lock.yaml', 'package.json', '.pnpmrc', '.npmrc', 'pnpm-workspace.yaml') }}
         restore-keys: |
+          ${{ runner.os }}-node-modules-${{ hashFiles('pnpm-lock.yaml', 'package.json') }}
           ${{ runner.os }}-node-modules-
+
+    - name: Cache TypeScript build info
+      if: inputs.install-deps == 'true'
+      uses: actions/cache@v4
+      with:
+        path: |
+          *.tsbuildinfo
+          tsconfig.tsbuildinfo
+        key: ${{ runner.os }}-tsbuildinfo-${{ hashFiles('tsconfig*.json', 'src/**/*.ts') }}
+        restore-keys: |
+          ${{ runner.os }}-tsbuildinfo-
 
     - name: Install dependencies
       if: inputs.install-deps == 'true'
       shell: bash
       run: |
-        if [ ! -d "node_modules" ] || [ ! -f "node_modules/.pnpm/lock.yaml" ]; then
-          echo "Installing dependencies..."
-          pnpm install --frozen-lockfile
-        else
-          echo "Dependencies already installed, skipping..."
+        # Always run pnpm install to ensure consistency
+        # pnpm is smart enough to skip if nothing changed
+        echo "Installing dependencies..."
+        pnpm install --frozen-lockfile
+
+        # Verify installation
+        if [ ! -d "node_modules" ]; then
+          echo "❌ node_modules directory not found after installation"
+          exit 1
         fi
+
+        echo "✅ Dependencies installed successfully"

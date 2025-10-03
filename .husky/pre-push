@@ -1,2 +1,5 @@
 #!/usr/bin/env sh
-pnpm run pre-push
+pnpm run type-check
+pnpm run lint
+pnpm run test
+pnpm run build

@@ -66,8 +66,10 @@
 
 ```bash
 # List the commands you ran to test
-pnpm run check-all
+pnpm run type-check
+pnpm run lint
 pnpm run test:coverage
+pnpm run build
 ```
 
 ## Configuration Changes

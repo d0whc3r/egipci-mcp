@@ -9,7 +9,7 @@ Thank you for your interest in contributing to the EGIPCI MCP Server! This docum
 3. **Install** dependencies: `pnpm install`
 4. **Create** a branch: `git checkout -b feature/amazing-feature`
 5. **Make** your changes
-6. **Test** your changes: `pnpm run check-all`
+6. **Test** your changes: `pnpm run type-check && pnpm run lint && pnpm run test`
 7. **Commit** your changes: `git commit -m "feat: add amazing feature"`
 8. **Push** to your branch: `git push origin feature/amazing-feature`
 9. **Open** a Pull Request
@@ -33,7 +33,7 @@ cd egipci-mcp
 pnpm install
 
 # Verify setup
-pnpm run check-all
+pnpm run type-check && pnpm run lint && pnpm run test
 ```
 
 ### Development Scripts
@@ -56,9 +56,12 @@ pnpm run format           # Format code
 pnpm run format:check     # Check formatting
 pnpm run type-check       # TypeScript type checking
 
-# All-in-one
-pnpm run check-all        # Run all checks
-pnpm run fix-all          # Fix all auto-fixable issues
+# Quality checks
+pnpm run type-check       # TypeScript type checking
+pnpm run lint             # Run linter
+pnpm run lint:fix         # Fix linting issues
+pnpm run format           # Format code
+pnpm run format:check     # Check formatting
 ```
 
 ## 🎯 How to Contribute

@@ -1,5 +1,5 @@
 name: 'Setup Node.js and pnpm'
-description: 'Setup Node.js, pnpm, and install dependencies with caching'
+description: 'Setup Node.js, pnpm, and install dependencies with optimized caching'
 
 inputs:
   node-version:
@@ -23,11 +23,12 @@ runs:
       with:
         version: ${{ inputs.pnpm-version }}
 
-    - name: Setup Node.js
+    - name: Setup Node.js with cache
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.yaml'
 
     - name: Get pnpm store directory
       if: inputs.install-deps == 'true'
@@ -35,7 +36,7 @@ runs:
       run: |
         echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-    - name: Setup pnpm cache
+    - name: Cache pnpm store
       if: inputs.install-deps == 'true'
       uses: actions/cache@v4
       with:
@@ -44,7 +45,22 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
 
+    - name: Cache node_modules
+      if: inputs.install-deps == 'true'
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-
+
     - name: Install dependencies
       if: inputs.install-deps == 'true'
       shell: bash
-      run: pnpm install --frozen-lockfile
+      run: |
+        if [ ! -d "node_modules" ] || [ ! -f "node_modules/.pnpm/lock.yaml" ]; then
+          echo "Installing dependencies..."
+          pnpm install --frozen-lockfile
+        else
+          echo "Dependencies already installed, skipping..."
+        fi

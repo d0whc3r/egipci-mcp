@@ -13,6 +13,7 @@ concurrency:
 env:
   NODE_VERSION: '22'
   PNPM_VERSION: '10'
+  HUSKY: '0'
 
 jobs:
   # Fast checks that can run in parallel

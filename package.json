@@ -31,8 +31,15 @@
     "fix-all": "npm run lint:fix && npm run format",
     "clean": "rm -rf dist dist-test node_modules/.cache coverage *.tsbuildinfo",
     "clean:build": "rm -rf dist dist-test *.tsbuildinfo",
+    "clean:full": "rm -rf dist dist-test node_modules .pnpm-store coverage *.tsbuildinfo",
     "dev:full": "pnpm run clean:build && pnpm run type-check && pnpm run lint && pnpm run test:coverage && pnpm run build",
     "ci:local": "pnpm run type-check && pnpm run lint && pnpm run format:check && pnpm run test:ci && pnpm run build",
+    "security:audit": "pnpm audit --audit-level moderate",
+    "security:audit:fix": "pnpm audit --fix",
+    "security:outdated": "pnpm outdated",
+    "deps:update": "pnpm update --latest",
+    "deps:check": "pnpm outdated && pnpm audit",
+    "workspace:check": "pnpm -r exec -- echo 'Checking workspace package:'",
     "prepare": "husky"
   },
   "keywords": [
@@ -89,6 +96,7 @@
   },
   "homepage": "https://github.com/d0whc3r/egipci-mcp#readme",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

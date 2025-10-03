@@ -1,0 +1,5 @@
+packages:
+  - '.'
+
+# Minimum seconds (3 days)
+minimumReleaseAge: 4320

@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/d0whc3r/egipci-mcp/compare/v1.1.0...v1.2.0) (2025-10-03)
+
+### Features
+
+- **specs:** Add comprehensive documentation for EGIPCI MCP server ([cf53606](https://github.com/d0whc3r/egipci-mcp/commit/cf5360611f4bcb97b691094bf83d9a77dc57136f))
+
 ## [1.1.0](https://github.com/d0whc3r/egipci-mcp/compare/v1.0.0...v1.1.0) (2025-10-03)
 
 ### Features

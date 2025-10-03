@@ -1,14 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 📚 Documentation
-    url: https://github.com/d0whc3r/egipci-mcp/blob/master/README.md
-    about: Read the documentation for setup and usage instructions
-  - name: 💬 Discussions
-    url: https://github.com/d0whc3r/egipci-mcp/discussions
-    about: Ask questions and discuss ideas with the community
-  - name: 🔒 Security Issues
+  - name: 🔒 Security Vulnerability (Private)
     url: https://github.com/d0whc3r/egipci-mcp/security/advisories/new
-    about: Report security vulnerabilities privately
-  - name: 🏛️ EGIPCI Service
-    url: https://egipci.cultura.gencat.cat/
-    about: Official EGIPCI service from Generalitat de Catalunya
+    about: Report sensitive security vulnerabilities privately using GitHub Security Advisories
+  - name: 📖 Documentation
+    url: https://github.com/d0whc3r/egipci-mcp#readme
+    about: Read the project documentation and usage examples
+  - name: 💬 General Questions
+    url: https://github.com/d0whc3r/egipci-mcp/issues/new?template=question.yml
+    about: Ask questions about usage, configuration, or general help

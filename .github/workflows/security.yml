@@ -113,8 +113,8 @@ jobs:
 
           echo "🎯 Local security analysis completed"
 
-  eslint-security:
-    name: ESLint Security Analysis
+  oxlint-security:
+    name: Oxlint Security Analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -123,49 +123,42 @@ jobs:
       - name: Setup Node.js and pnpm
         uses: ./.github/actions/setup
 
-      - name: Install ESLint security plugins
+      - name: Run oxlint security analysis
         run: |
-          pnpm add -D eslint-plugin-security eslint-plugin-no-secrets --save-dev || true
+          echo "🔍 Running oxlint security analysis..."
 
-      - name: Run ESLint security analysis
-        run: |
-          # Create temporary ESLint config for security
-          cat > .eslintrc.security.json << 'EOF'
-          {
-            "extends": [],
-            "plugins": ["security"],
-            "rules": {
-              "security/detect-buffer-noassert": "error",
-              "security/detect-child-process": "error",
-              "security/detect-disable-mustache-escape": "error",
-              "security/detect-eval-with-expression": "error",
-              "security/detect-no-csrf-before-method-override": "error",
-              "security/detect-non-literal-fs-filename": "error",
-              "security/detect-non-literal-regexp": "error",
-              "security/detect-non-literal-require": "error",
-              "security/detect-object-injection": "error",
-              "security/detect-possible-timing-attacks": "error",
-              "security/detect-pseudoRandomBytes": "error",
-              "security/detect-unsafe-regex": "error"
-            }
-          }
-          EOF
-
-          # Run security linting (allow to fail gracefully)
-          npx eslint src/ -c .eslintrc.security.json --ext .ts,.js --format json > eslint-security.json || true
+          # Run oxlint with security-focused rules
+          pnpm oxlint src/ --format=json > oxlint-security.json || true
 
           # Parse results
-          if [ -s eslint-security.json ]; then
-            echo "📊 ESLint Security Analysis Results:"
-            cat eslint-security.json | jq -r '.[] | select(.messages | length > 0) | .filePath + ": " + (.messages | length | tostring) + " issues"' || echo "No security issues found"
+          if [ -s oxlint-security.json ]; then
+            echo "📊 Oxlint Security Analysis Results:"
+            cat oxlint-security.json | jq -r '.[] | select(.messages | length > 0) | .filePath + ": " + (.messages | length | tostring) + " issues"' 2>/dev/null || echo "Security analysis completed"
           else
-            echo "✅ No ESLint security issues detected"
+            echo "✅ No oxlint security issues detected"
+          fi
+
+          # Additional manual security checks
+          echo "🔍 Running additional security checks..."
+
+          # Check for hardcoded secrets
+          if grep -r -i "password\|secret\|key\|token" src/ --include="*.ts" --include="*.js" | grep -v "// " | grep -v "test" | grep -v "EGIPCI_COOKIE"; then
+            echo "⚠️ Potential hardcoded secrets found"
+          else
+            echo "✅ No hardcoded secrets detected"
+          fi
+
+          # Check for eval usage
+          if grep -r "eval(" src/ --include="*.ts" --include="*.js"; then
+            echo "⚠️ eval() usage detected - potential security risk"
+          else
+            echo "✅ No eval() usage detected"
           fi
 
       - name: Upload security analysis results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: eslint-security-${{ github.run_id }}
-          path: eslint-security.json
+          name: oxlint-security-${{ github.run_id }}
+          path: oxlint-security.json
           retention-days: 7

@@ -69,7 +69,7 @@ pnpm run format:check     # Check formatting
 ### Reporting Bugs
 
 1. **Search** existing issues to avoid duplicates
-2. **Use** the bug report template
+2. **Use** the [bug report template](https://github.com/d0whc3r/egipci-mcp/issues/new?template=bug_report.yml)
 3. **Provide** detailed information:
    - Steps to reproduce
    - Expected vs actual behavior
@@ -79,7 +79,7 @@ pnpm run format:check     # Check formatting
 ### Suggesting Features
 
 1. **Search** existing feature requests
-2. **Use** the feature request template
+2. **Use** the [feature request template](https://github.com/d0whc3r/egipci-mcp/issues/new?template=feature_request.yml)
 3. **Explain** the problem and proposed solution
 4. **Provide** use cases and examples
 
@@ -181,7 +181,7 @@ egipci-mcp/
 │   ├── workflows/         # CI/CD workflows
 │   ├── ISSUE_TEMPLATE/    # Issue templates
 │   └── actions/           # Reusable actions
-├── tests/                 # Test files (if separate)
+├── test-results/          # Test output files (generated)
 └── dist/                  # Built output
 ```
 
@@ -312,7 +312,6 @@ Contributors are recognized through:
 ## 📞 Contact
 
 - **Issues**: [GitHub Issues](https://github.com/d0whc3r/egipci-mcp/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/d0whc3r/egipci-mcp/discussions)
 - **Security**: [Security Advisories](https://github.com/d0whc3r/egipci-mcp/security/advisories)
 - **Maintainer**: [@d0whc3r](https://github.com/d0whc3r)
 

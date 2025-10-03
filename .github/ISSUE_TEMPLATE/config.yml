@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/d0whc3r/egipci-mcp/blob/master/README.md
+    about: Read the documentation for setup and usage instructions
+  - name: 💬 Discussions
+    url: https://github.com/d0whc3r/egipci-mcp/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 🔒 Security Issues
+    url: https://github.com/d0whc3r/egipci-mcp/security/advisories/new
+    about: Report security vulnerabilities privately
+  - name: 🏛️ EGIPCI Service
+    url: https://egipci.cultura.gencat.cat/
+    about: Official EGIPCI service from Generalitat de Catalunya

@@ -1,0 +1,96 @@
+name: ❓ Question
+description: Ask a question about usage, configuration, or general help
+title: '[Question]: '
+labels: ['question', 'needs-triage']
+assignees: ['d0whc3r']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question? We're here to help! Please provide as much context as possible.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: Ask your question here...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Question Category
+      description: What category does your question fall into?
+      options:
+        - Installation and Setup
+        - Configuration
+        - Usage and Features
+        - Troubleshooting
+        - Integration with MCP Clients
+        - EGIPCI Service
+        - Development and Contributing
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide context about what you're trying to achieve
+      placeholder: |
+        What are you trying to do?
+        What have you tried so far?
+        What documentation have you consulted?
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment (if relevant)
+      description: Your environment details
+      placeholder: |
+        - OS: [e.g. macOS 14.0, Ubuntu 22.04, Windows 11]
+        - Node.js version: [e.g. 18.17.0]
+        - Package version: [e.g. 1.2.3]
+        - MCP Client: [e.g. Claude Desktop, Cursor]
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration (if relevant)
+      description: Your current configuration (remove sensitive data)
+      render: json
+      placeholder: |
+        {
+          "mcpServers": {
+            "gencat-egipci": {
+              "command": "egipci-mcp",
+              "env": {
+                "EGIPCI_COOKIE": "[REDACTED]"
+              }
+            }
+          }
+        }
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Any other relevant information
+      placeholder: Screenshots, error messages, or other helpful details...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I have consulted the README and documentation
+          required: true
+        - label: I have provided sufficient context for my question
+          required: true

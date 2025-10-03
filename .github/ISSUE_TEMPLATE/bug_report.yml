@@ -1,0 +1,109 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior
+title: '[Bug]: '
+labels: ['bug', 'needs-triage']
+assignees: ['d0whc3r']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide as much detail as possible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe the bug...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Configure MCP server with...
+        2. Run command...
+        3. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+      placeholder: Describe what should have happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened
+      placeholder: Describe what actually happened...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Your environment details
+      placeholder: |
+        - OS: [e.g. macOS 14.0, Ubuntu 22.04, Windows 11]
+        - Node.js version: [e.g. 18.17.0]
+        - Package version: [e.g. 1.2.3]
+        - MCP Client: [e.g. Claude Desktop, Cursor]
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs
+      description: Any relevant error messages or logs
+      render: shell
+      placeholder: Paste error logs here...
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration
+      description: Your MCP configuration (remove sensitive data)
+      render: json
+      placeholder: |
+        {
+          "mcpServers": {
+            "gencat-egipci": {
+              "command": "egipci-mcp",
+              "env": {
+                "EGIPCI_COOKIE": "[REDACTED]"
+              }
+            }
+          }
+        }
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context about the problem
+      placeholder: Add any other context, screenshots, or relevant information...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have provided all the requested information
+          required: true
+        - label: I have removed any sensitive information from logs and configuration
+          required: true

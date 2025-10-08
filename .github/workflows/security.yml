@@ -66,7 +66,7 @@ jobs:
 
       - name: Initialize CodeQL
         if: steps.codeql-check.outputs.enabled == 'true'
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: typescript, javascript
 
@@ -78,7 +78,7 @@ jobs:
 
       - name: Perform CodeQL Analysis (with upload)
         if: steps.codeql-check.outputs.enabled == 'true'
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: '/language:typescript'
 

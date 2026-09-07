@@ -14,3 +14,6 @@ minimumReleaseAge: 4320
 networkConcurrency: 3
 childConcurrency: 3
 lockfile: true
+minimumReleaseAgeExclude:
+  # Renovate security update: @modelcontextprotocol/sdk@1.26.0
+  - "@modelcontextprotocol/sdk@1.26.0"
